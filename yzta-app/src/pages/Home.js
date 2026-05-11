@@ -1,5 +1,6 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
+import homeBg from '../assets/home-hero-bg.jpg';
 
 export default function Home() {
   const { theme } = useOutletContext();
@@ -14,17 +15,43 @@ export default function Home() {
 
   return (
     <>
-      <section style={{ position: 'relative', width: '100%', height: '300px', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white', textAlign: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></div>
-        <h2 style={{ position: 'relative', fontSize: '3.5rem', fontWeight: 'bold', zIndex: 1, marginBottom: '80px', textShadow: '2px 2px 4px rgba(0,0,0,0.6)' }}>Doğadan Sofranıza, Güvenle.</h2>
-        <button style={{ position: 'relative', zIndex: 1, marginBottom: '20px', backgroundColor: theme.primary, color: 'white', border: 'none', padding: '15px 35px', fontSize: '1.2rem', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>Bilgi Al</button>
+      <section style={{ 
+        position: 'relative', 
+        width: '100%', 
+        minHeight: '575px',
+        flexShrink: 0,
+        backgroundImage: `url(${homeBg})`,
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
+        backgroundAttachment: 'fixed',
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        color: 'white', 
+        textAlign: 'center' 
+      }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.65)' }}></div>
+        
+        <h2 style={{ position: 'relative', fontSize: '3.5rem', fontWeight: 'bold', zIndex: 1, marginBottom: '50px', textShadow: '2px 2px 4px rgba(0,0,0,0.6)' }}>
+          Doğadan Sofranıza, Güvenle.
+        </h2>
+        <button style={{ position: 'relative', zIndex: 1, marginTop: '100px', backgroundColor: theme.primary, color: 'white', border: 'none', padding: '15px 35px', fontSize: '1.2rem', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>
+          Bilgi Al
+        </button>
       </section>
+
       <section style={{ padding: '70px 20px', textAlign: 'center' }}>
         <div style={{ fontSize: '3.5rem', marginBottom: '15px' }}>🌱</div>
         <h3 style={{ fontSize: '2rem', fontWeight: 'bold', color: theme.primary }}>Yerel Üretim, Global Kalite</h3>
-        <p style={{ maxWidth: '650px', margin: '20px auto', opacity: 0.8, fontSize: '1.1rem', lineHeight: '1.6' }}>Kooperatifimiz, sürdürülebilir tarım ilkeleriyle üretilen ürünleri aracı olmadan doğrudan sizlere ulaştırır.</p>
-        <button style={{ backgroundColor: theme.primary, color: 'white', border: 'none', padding: '15px 35px', fontSize: '1.2rem', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>Detaylar</button>
+        <p style={{ maxWidth: '650px', margin: '20px auto', opacity: 0.8, fontSize: '1.1rem', lineHeight: '1.6' }}>
+          Kooperatifimiz, sürdürülebilir tarım ilkeleriyle üretilen ürünleri aracı olmadan doğrudan sizlere ulaştırır.
+        </p>
+        <button style={{ backgroundColor: theme.primary, color: 'white', border: 'none', padding: '15px 35px', fontSize: '1.2rem', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>
+          Detaylar
+        </button>
       </section>
+
       <section style={{ padding: '60px 40px', backgroundColor: theme.cardBg }}>
         <h3 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '50px', color: theme.primary, fontWeight: 'bold' }}>Ürünlerimiz</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '25px' }}>
