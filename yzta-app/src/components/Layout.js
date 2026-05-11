@@ -14,9 +14,9 @@ export default function Layout() {
   ]);
 
   const theme = darkMode ? {
-    bg: '#121f13', text: '#e0e0e0', cardBg: '#3a4f3c', primary: '#879c88', footer: '#1a2b1c'
+    bg: '#121f13', text: '#e0e0e0', cardBg: '#3a4f3c', primary: '#879c88', hoverPrimary: '#99d09a', footer: '#1a2b1c'
   } : {
-    bg: '#f9faf8', text: '#2d3748', cardBg: '#ffffff', primary: '#a1bd8b', footer: '#879c88'
+    bg: '#f9faf8', text: '#2d3748', cardBg: '#ffffff', primary: '#a1bd8b', hoverPrimary: '#5e724f', footer: '#879c88'
   };
 
   const handleSendMessage = () => {
@@ -41,7 +41,14 @@ export default function Layout() {
             ))}
           </ul>
           <hr style={{ margin: '30px 0', borderColor: theme.primary }} />
-          <button onClick={() => alert("n8n Tetiklendi!")} style={{ width: '75%', backgroundColor: '#d97706', color: 'white', padding: '12px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}>
+          
+          {/* Hover Eklenmiş N8N Butonu */}
+          <button 
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b45309'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#d97706'}
+            onClick={() => alert("n8n Tetiklendi!")} 
+            style={{ width: '75%', backgroundColor: '#d97706', color: 'white', padding: '12px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold', transition: 'background-color 0.3s ease' }}
+          >
             ⚡ Tedarikçiye Mail Taslağı (N8N)
           </button>
         </div>
@@ -63,8 +70,25 @@ export default function Layout() {
               Kurumsal ▾
               {isKurumsalHovered && (
                 <div style={{ position: 'absolute', top: '100%', left: '-20px', width: '180px', backgroundColor: theme.cardBg, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', borderRadius: '8px', overflow: 'hidden', zIndex: 100 }}>
-                  <Link to="/hakkimizda" style={{ display: 'block', padding: '12px 20px', color: theme.text, textDecoration: 'none', borderBottom: `1px solid ${theme.primary}33` }}>Hakkımızda</Link>
-                  <Link to="/amac-ve-ilkeler" style={{ display: 'block', padding: '12px 20px', color: theme.text, textDecoration: 'none' }}>Amaç ve İlkeler</Link>
+                  
+                  {/* Hover Eklenmiş Açılır Menü Sekmeleri */}
+                  <Link 
+                    to="/hakkimizda" 
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = theme.primary; e.currentTarget.style.color = 'white'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = theme.text; }}
+                    style={{ display: 'block', padding: '12px 20px', color: theme.text, textDecoration: 'none', borderBottom: `1px solid ${theme.primary}33`, transition: 'all 0.2s ease' }}
+                  >
+                    Hakkımızda
+                  </Link>
+                  <Link 
+                    to="/amac-ve-ilkeler" 
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = theme.primary; e.currentTarget.style.color = 'white'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = theme.text; }}
+                    style={{ display: 'block', padding: '12px 20px', color: theme.text, textDecoration: 'none', transition: 'all 0.2s ease' }}
+                  >
+                    Amaç ve İlkeler
+                  </Link>
+
                 </div>
               )}
             </div>
@@ -131,7 +155,7 @@ export default function Layout() {
             </div>
           </div>
           <hr style={{ borderColor: 'rgba(255,255,255,0.2)', marginBottom: '25px' }} />
-          <p href='' style={{ textAlign: 'center', fontSize: '0.9rem', opacity: 0.8 }}>© Copyright 2026 – Google YZTA Hackathon Group 318 All Rights Reserved.</p>
+          <p style={{ textAlign: 'center', fontSize: '0.9rem', opacity: 0.8 }}>© Copyright 2026 – Google YZTA Hackathon Group 318 All Rights Reserved.</p>
         </footer>
 
         {/* CHATBOT */}
@@ -154,11 +178,28 @@ export default function Layout() {
               </div>
               <div style={{ padding: '15px', borderTop: `1px solid ${theme.primary}33`, display: 'flex', backgroundColor: theme.cardBg }}>
                 <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} placeholder="Sorunuzu yazın..." style={{ flex: 1, padding: '12px 15px', borderRadius: '25px', border: `1px solid ${theme.primary}`, backgroundColor: theme.bg, color: theme.text, outline: 'none' }} />
-                <button onClick={handleSendMessage} style={{ marginLeft: '10px', backgroundColor: theme.primary, color: 'white', border: 'none', padding: '0 20px', borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold' }}>Gönder</button>
+                
+                {/* Hover Eklenmiş Gönder Butonu */}
+                <button 
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.hoverPrimary}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = theme.primary}
+                  onClick={handleSendMessage} 
+                  style={{ marginLeft: '10px', backgroundColor: theme.primary, color: 'white', border: 'none', padding: '0 20px', borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', transition: 'background-color 0.3s ease' }}
+                >
+                  Gönder
+                </button>
               </div>
             </div>
           ) : (
-            <button onClick={() => setChatOpen(true)} style={{ backgroundColor: theme.primary, color: 'white', border: 'none', borderRadius: '50%', width: '70px', height: '70px', fontSize: '2rem', cursor: 'pointer', boxShadow: '0 6px 12px rgba(0,0,0,0.2)' }}>💬</button>
+            /* Hover Eklenmiş Chatbot Açma Butonu */
+            <button 
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.hoverPrimary}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = theme.primary}
+              onClick={() => setChatOpen(true)} 
+              style={{ backgroundColor: theme.primary, color: 'white', border: 'none', borderRadius: '50%', width: '70px', height: '70px', fontSize: '2rem', cursor: 'pointer', boxShadow: '0 6px 12px rgba(0,0,0,0.2)', transition: 'background-color 0.3s ease' }}
+            >
+              💬
+            </button>
           )}
         </div>
 
