@@ -46,14 +46,12 @@ export default function Home() {
         </button>
       </section>
 
-      {/* ARKA PLAN AYRILDI: Bu bölüme theme.cardBg verildi */}
       <section style={{ padding: '70px 20px', textAlign: 'center', backgroundColor: theme.cardBg }}>
         <div style={{ fontSize: '3.5rem', marginBottom: '15px' }}>🌱</div>
         <h3 style={{ fontSize: '2rem', fontWeight: 'bold', color: theme.primary }}>Yerel Üretim, Global Kalite</h3>
         <p style={{ maxWidth: '650px', margin: '20px auto', opacity: 0.8, fontSize: '1.1rem', lineHeight: '1.6', color: theme.text }}>
           Kooperatifimiz, sürdürülebilir tarım ilkeleriyle üretilen ürünleri aracı olmadan doğrudan sizlere ulaştırır.
         </p>
-        {/* Hover Eklenmiş Detaylar Butonu */}
         <button 
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.hoverPrimary}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = theme.primary}
@@ -63,7 +61,6 @@ export default function Home() {
         </button>
       </section>
 
-      {/* ARKA PLAN AYRILDI: Bu bölüm theme.bg olarak kaldı */}
       <section style={{ padding: '60px 40px', backgroundColor: theme.bg }}>
         <h3 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '50px', color: theme.primary, fontWeight: 'bold' }}>Ürünlerimiz</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '25px' }}>
