@@ -69,10 +69,12 @@ Proje akış şeması şu şekildedir: **Kullanıcı Etkileşimi ➔ Veri İşle
 
 ```text
 COOPWISE/
-├── frontend/             # React kaynak kodları
+├── yzta-app/             
+  ├── src/
+    ├── components/
+    ├── pages/            # React kaynak kodları
 ├── backend/              # FastAPI kaynak kodları ve API endpointleri
-├── n8n_workflows/        # .json formatında n8n iş akışları (Agents)
-└── docs/                 # Proje sunumu ve dokümantasyon
+
 
 ```
 
