@@ -1,0 +1,335 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "46343d99-2268-4b29-b8a8-e0a23cb906cd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        32
+      ],
+      "id": "7e968ae6-f27d-43bb-a959-ca1ad87cd834",
+      "name": "Webhook",
+      "webhookId": "1163c69f-aeb1-4339-887e-1739cfa1a1f9"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.islem_metadata.tip }}",
+                    "rightValue": "KARGO_GECIKME",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "53506cc4-013b-411c-acc5-2abedd993559"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "cc527e13-29b4-4e9f-9abb-e1300eb6addc",
+                    "leftValue": "={{ $json.body.islem_metadata.tip }}",
+                    "rightValue": "STOK_ALARM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        32
+      ],
+      "id": "2c873e12-9afa-4e9b-911b-c0f685eadf92",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.veriler",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -128
+      ],
+      "id": "2c5369bf-e213-4952-90ab-d263b2793776",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.veriler",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        448,
+        176
+      ],
+      "id": "c2bf0a5d-f1d2-46cd-ae03-5430ff0f183f",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\"Sen bir kooperatif işletme asistanısın. Elimde bir veri var: Ürün: {{ $json.urun }}, Stok Durumu: {{ $json.stok }}. Eğer stok 0 ise tedarikçi için çok kısa ve profesyonel bir sipariş hatırlatma notu yaz. Eğer stok az ise ekip için bir uyarı notu hazırla. Yanıtın sadece bu not olsun.\" ",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        672,
+        176
+      ],
+      "id": "68b884d4-026d-4a9c-b6b5-5d5de5ff4b29",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        400
+      ],
+      "id": "b17d851c-4d0c-4c16-9421-ed34252869b4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "egRdCDUeTkFHbWar",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "=tedarik@kooperatif.com",
+        "subject": "=Acil Stok Bildirimi ve Sipariş Talebi",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        272
+      ],
+      "id": "bb188a96-f701-4148-8ea6-4ac74f7567d4",
+      "name": "Send a message",
+      "webhookId": "c2b6ff03-5ae2-40b1-9c93-60519c1e795a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QDVnrBGkTBYEUdHG",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sen bir lojistik asistanısın. Takip No: {{ $json.takip_no }} olan kargonun durumu {{ $json.durum }}. Müşteri {{ $json.musteri }} için gecikmeden dolayı özür dileyen çok kısa bir bilgilendirme metni yaz",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        656,
+        -128
+      ],
+      "id": "b23f082f-b676-453f-a439-5268f04d6668",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        528,
+        80
+      ],
+      "id": "f246189d-9579-4917-a50b-f3d5d9ef819d",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "egRdCDUeTkFHbWar",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ali@gmail.com",
+        "subject": "Kargonuz Hakkında Bilgilendirme - Takip No",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        -128
+      ],
+      "id": "b72ba6d2-cb2d-4441-a5d6-5f58fc5c1fe9",
+      "name": "Send a message1",
+      "webhookId": "cd00507b-96b0-4908-b5d0-0429c2df39e8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QDVnrBGkTBYEUdHG",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "325dbca4-875d-4b6a-8ff3-aa77d4a3aff9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7e24b81b9b29b93c1c09d4a2164fde694990e8e152d397899089df335a7a40ee"
+  },
+  "id": "wntdTie8lCx2tVs9",
+  "tags": []
+}
