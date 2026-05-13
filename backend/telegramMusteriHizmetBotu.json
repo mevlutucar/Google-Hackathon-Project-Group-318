@@ -1,0 +1,237 @@
+{
+    "nodes": [
+        {
+            "parameters": {
+                "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+                "text": "={{ $json.output }}",
+                "replyMarkup": "={{ $json.output }}",
+                "forceReply": {},
+                "replyKeyboardOptions": {},
+                "replyKeyboardRemove": {},
+                "additionalFields": {}
+            },
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                128,
+                -48
+            ],
+            "id": "ee5c4cb0-4860-4bf2-8289-0f077cbed196",
+            "name": "Send a text message",
+            "webhookId": "16b86534-447f-48d5-831c-eb476c55faf0",
+            "credentials": {
+                "telegramApi": {
+                    "id": "ZutghibtswTrxCbo",
+                    "name": "Telegram account 2"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "model": "llama-3.3-70b-versatile",
+                "options": {
+                    "maxTokensToSample": 500,
+                    "temperature": 0.4
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+            "typeVersion": 1,
+            "position": [
+                -720,
+                160
+            ],
+            "id": "cecb2bba-8047-4209-b0e1-c87572c1f9e8",
+            "name": "Groq Chat Model",
+            "credentials": {
+                "groqApi": {
+                    "id": "XdSgJGCTfGDohCuI",
+                    "name": "Groq account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+                "options": {
+                    "systemMessage": "ROLÜN VE KİMLİĞİN:\nSen CoopWise asistanısın. KOBİ'ler, yerel üreticiler ve kooperatifler için tasarlanmış bir \"Akıllı Operasyon Asistanı\" olarak görev yaparsın. Görevin, müşterilerin kargo durumu, stok bilgisi gibi teknik sorularını yanıtlamak ve onlarla profesyonel bir iletişim kurmaktır.\n\nTEMEL GÖREVLERİN:\n1. Selamlama ve Sohbet: Kullanıcıdan gelen \"Selam\", \"Merhaba\", \"Nasılsın?\" gibi mesajlara samimi, profesyonel ve üretici dostu bir dille yanıt ver. (Örn: \"Merhaba! Ben CoopWise, size nasıl yardımcı olabilirim?\", \"Çok iyiyim, yerel üreticilerimize destek olmak için buradayım. Sizin için ne yapabilirim?\")\n2. Niyet Analizi: Müşterinin kargo mu sorduğunu, stok mu sorguladığını yoksa sadece sohbet mi ettiğini anla.\n3. Parametre Çıkarımı: Eğer mesajda bir sayı (Örn: 128, #456) geçiyorsa, bunu otomatik olarak \"Sipariş ID\" veya \"Kargo ID\" olarak algıla.\n4. Araç Kullanımı: Kargo durumu gibi gerçek verilere dayalı bir soru geldiğinde asla tahmin yürütme; mutlaka bağlı olan Google Sheets aracını kullanarak sorgulama yap.\n\nDAVRANIŞ KURALLARI:\n- Halüsinasyon Yasaktır: Veritabanında (Google Sheets) olmayan hiçbir bilgiyi (teslimat tarihi, stok miktarı vb.) uydurma. Veri yoksa \"Henüz bu numaralı siparişe ait bir kayıt bulamadım, isterseniz numarayı kontrol edip tekrar yazabilirsiniz\" de.\n- Kısa ve Öz Ol: Mesajlarını WhatsApp/Telegram ekranına uygun şekilde, madde işaretleri kullanarak ve gereksiz uzatmadan yaz.\n- Tonlama: Yardımsever, güven verici ve Hataylı yerel üreticileri destekleyen sıcak bir ton kullan.\n\nBELİRSİZLİK DURUMU:\nEğer müşteri kargo soruyor ama sipariş numarası vermemişse, nazikçe: \"Kargonuzun durumunu hemen kontrol edebilmem için lütfen sipariş numaranızı paylaşır mısınız?\" diye sor."
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3.1,
+            "position": [
+                -352,
+                -48
+            ],
+            "id": "2e7f1eb6-fb34-4e16-a0a4-af5b8b7a8867",
+            "name": "AI Agent"
+        },
+        {
+            "parameters": {
+                "documentId": {
+                    "__rl": true,
+                    "value": "1O67LkDmkrJ6YFkHlrBPi22dSxpYbS6r4469Qz_pL054",
+                    "mode": "list",
+                    "cachedResultName": "kargo_telegram_takibi",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1O67LkDmkrJ6YFkHlrBPi22dSxpYbS6r4469Qz_pL054/edit?usp=drivesdk"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Sayfa1",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1O67LkDmkrJ6YFkHlrBPi22dSxpYbS6r4469Qz_pL054/edit#gid=0"
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.googleSheetsTool",
+            "typeVersion": 4.7,
+            "position": [
+                -288,
+                208
+            ],
+            "id": "c745f71a-b165-4788-a2f0-04a2fa411e7a",
+            "name": "Get row(s) in sheet in Google Sheets",
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "ouTEyZfTiXZU1Yjl",
+                    "name": "Google Sheets account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "sessionIdType": "customKey",
+                "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+                "contextWindowLength": 15
+            },
+            "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+            "typeVersion": 1.4,
+            "position": [
+                -464,
+                272
+            ],
+            "id": "c17e0064-5440-43e6-9907-24259585fefc",
+            "name": "Simple Memory"
+        },
+        {
+            "parameters": {
+                "updates": [
+                    "message"
+                ],
+                "additionalFields": {}
+            },
+            "type": "n8n-nodes-base.telegramTrigger",
+            "typeVersion": 1.3,
+            "position": [
+                -992,
+                -80
+            ],
+            "id": "688ed875-507c-46cc-9412-73dddc5ff2a7",
+            "name": "Telegram Trigger",
+            "webhookId": "b362d7e2-9ab1-4591-b449-c9709a552832",
+            "credentials": {
+                "telegramApi": {
+                    "id": "ZutghibtswTrxCbo",
+                    "name": "Telegram account 2"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "0595551f-feb5-40e1-978e-3b117e09987c",
+                            "name": "message.text",
+                            "value": "={{ $json.message.text }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                -688,
+                -80
+            ],
+            "id": "08a67a0d-85c2-47f6-a732-b5aec94d79b0",
+            "name": "Edit Fields"
+        }
+    ],
+    "connections": {
+        "Groq Chat Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AI Agent": {
+            "main": [
+                [
+                    {
+                        "node": "Send a text message",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get row(s) in sheet in Google Sheets": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Simple Memory": {
+            "ai_memory": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_memory",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Telegram Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Edit Fields",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Edit Fields": {
+            "main": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "7e24b81b9b29b93c1c09d4a2164fde694990e8e152d397899089df335a7a40ee"
+    }
+}
